@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        table tr td{
+            padding: 10px;
+        }
+    </style>
+     <script>
+        $(document).ready(function(){
+             $('select#cmbdepartment').change(function () {
+               
+                var optionSelected = $(this).find("option:selected");
+               
+                var valueSelected  = Number(optionSelected.val());
+               
+                var departmentName   = optionSelected.text();
+                data = {"did" : valueSelected };
+                $.ajax({
+                    url:'/getCoursedetails',
+                    data,
+                    type:"GET",
+                    success:function(result)
+                    {
+                        $("#cmbCourse option").remove();
+                        for(var i = 0; i <= result.length-1; i++)
+                        {
+                            $("#cmbCourse").append('<option value='+result[i].id +'>'+ result[i].courseName +'</option>');
+                        };
+                    }
+                });
+             });
+        });
+    </script>
+    <script>
+        myButton.addEventListener("click", function () {
+            myPopup.classList.add("show");
+        });
+        closePopup.addEventListener("click", function () {
+            myPopup.classList.remove("show");
+        });
+        window.addEventListener("click", function (event) {
+            if (event.target == myPopup) {
+                myPopup.classList.remove("show");
+            }
+        });
+    </script>
+</head>
+<body>
+
+
+<h1 style="text-align: center;">Enquiry Form</h1>
+
+<div class="deev">
+<form method="post" action="">
+        {% csrf_token %}
+        <table border="1">
+            <tr>
+                <td>Name</td>
+                <td colspan="3"><input type="text" id="" value="" class="form-control" required  placeholder="Enter Your Name" name="studentName"></td>
+            </tr>
+            <tr>
+                <td>Gender</td>
+                <td colspan="3">
+                    <input type="radio" name="gender" checked  value="Male"> Male
+                    <input type="radio" name="gender" value="Female"> Female
+                </td>
+            </tr>
+            <tr>
+                <td>Age</td>
+                <td><input type="number" value="25" class="form-control" name="age" required></td>
+                <td>DOB</td>
+                <td><input value="1990/05/04" type="date" class="form-control" name="DOB" required></td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td colspan="3"><textarea class="form-control" name="address" required>dfgdf</textarea></td>
+            </tr>
+            <tr>
+                <td>Phone</td>
+                <td><input type="number" class="form-control" name="phone" required></td>
+                <td>Email</td>
+                <td><input type="email" class="form-control" name="email" required></td>
+            </tr>
+            <tr>
+                <td>Department</td>
+                <td>
+                    <select class="form-control" name="department" id="cmbdepartment" style="height: 35px;" required="required">
+                        <option value="">-- Select Department --</option>
+                        {% for c in d %}
+                            <option value="{{c.id}}">{{c.deptName}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>Course</td>
+                <td>
+                    <select id="cmbCourse" class="form-control" style="height: 35px;" name="cmbCourse" required="required">
+                    
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Purpose</td>
+                <td>
+                    <select name="crses" id="crses">
+                               <option>-- why choose me --</option>
+                               <option value="for enqury">For Enqury</option>
+                               <option value="Admission">Admission </option>
+                               <option value="place order">Place order</option>
+                           </select>
+                           <br><br>
+                </td>
+                <td >metrials</td>
+                <td>
+                    <label for="metrials1">for complimentary :- </label><br>
+                    <input type="checkbox" id="metrials1" name="metrials1" value="Note Book">
+                      <label for="metrials1">  Note Book</label><br>
+                    <input type="checkbox" id="metrials2" name="metrials2" value="pen">
+                      <label for="metrials2"> pen </label><br>
+                    <input type="checkbox" id="metrials3" name="metrials3" value="exam peppers">
+                      <label for="metrials3"> exam peppers </label><br>
+
+                </td>
+            </tr>
+            
+            <tr>
+                <td colspan="4" align="center" ><a href="{% url 'confirm' %}"><button type="submit"  class="btn btn-success">save</button></a></td>
+            </tr>
+        </table>
+</form>
+    <style>
+    .deev{
+        margin-left: 450px;
+        margin-top: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgb(0, 0 ,0 , 0.1), 0 6px,16px rgb(0 , 0 , 0, 0.1);
+        padding-top: 12px;
+        margin-top: 12px;
+    }
+</style>
+</div>
+
+
+
+<!--<a href="/index">Return to Home Page</a><br>-->
+<!--<a href="/register">Logout</a>-->
+
+
+</body>
+</html>
